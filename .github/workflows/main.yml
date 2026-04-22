@@ -1,7 +1,6 @@
 name: 'publish'
 
 on:
-  workflow-dispatch:
   push:
     branches:
       - release
