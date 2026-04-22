@@ -5,6 +5,7 @@ use axum::{
     routing::get,
     Router,
 };
+use serde_json::Value;
 use std::{
     fs,
     path::{Component, PathBuf},
@@ -25,11 +26,11 @@ pub fn start_server() {
             .expect("failed to create tokio runtime");
 
         runtime.block_on(async {
-            let home = std::env::var("HOME").unwrap_or_default();
+            let assets_root = resolve_assets_root();
             let app = Router::new()
                 .route("/assets/*path", get(serve_assets))
                 .with_state(AppState {
-                    assets_root: PathBuf::from(home).join(".local/share/fyi.ect.yugen/assets"),
+                    assets_root,
                 });
 
             let listener = tokio::net::TcpListener::bind("127.0.0.1:10454")
@@ -40,6 +41,48 @@ pub fn start_server() {
             }
         });
     });
+}
+
+fn resolve_assets_root() -> PathBuf {
+    if let Some(app_data_dir) = tauri_app_data_dir() {
+        return app_data_dir.join("assets");
+    }
+
+    let home = std::env::var("HOME").unwrap_or_default();
+    PathBuf::from(home).join(".local/share/fyi.ect.yugen/assets")
+}
+
+fn tauri_app_data_dir() -> Option<PathBuf> {
+    let config: Value = serde_json::from_str(include_str!("../tauri.conf.json")).ok()?;
+    let identifier = config.get("identifier")?.as_str()?;
+    let data_dir = platform_data_dir()?;
+    Some(data_dir.join(identifier))
+}
+
+fn platform_data_dir() -> Option<PathBuf> {
+    #[cfg(target_os = "windows")]
+    {
+        return std::env::var_os("APPDATA").map(PathBuf::from);
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        let home = std::env::var_os("HOME")?;
+        return Some(
+            PathBuf::from(home)
+                .join("Library")
+                .join("Application Support"),
+        );
+    }
+
+    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
+    {
+        if let Some(xdg_data_home) = std::env::var_os("XDG_DATA_HOME") {
+            return Some(PathBuf::from(xdg_data_home));
+        }
+        let home = std::env::var_os("HOME")?;
+        return Some(PathBuf::from(home).join(".local").join("share"));
+    }
 }
 
 async fn serve_assets(
