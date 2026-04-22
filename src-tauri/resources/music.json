@@ -1,0 +1,274 @@
+{
+    "music": {
+        "overworld_old": {
+            "minecraft/sounds/music/game/danny.ogg": {
+                "hash": "603fd41ebe3eac0795ebfa0b31195be1866d1e9c",
+                "size": 2950673
+            },
+            "minecraft/sounds/music/game/dry_hands.ogg": {
+                "hash": "53976ed366c97ad86c1d7ce21497c9985f33d4f1",
+                "size": 634322
+            },
+            "minecraft/sounds/music/game/haggstrom.ogg": {
+                "hash": "c25705e16f1d51a56a2b0a4604250b3844ceadcf",
+                "size": 2178666
+            },
+            "minecraft/sounds/music/game/key.ogg": {
+                "hash": "8ee9d608f0bbb2d0513af7bfc1b55e591ada05ea",
+                "size": 656170
+            },
+            "minecraft/sounds/music/game/living_mice.ogg": {
+                "hash": "532fdae2fd43bc046f78a1b7b79f28161f25fc4c",
+                "size": 2008986
+            },
+            "minecraft/sounds/music/game/mice_on_venus.ogg": {
+                "hash": "06a2f38a094573652977232abcc4f268cf6745ad",
+                "size": 2943549
+            },
+            "minecraft/sounds/music/game/minecraft.ogg": {
+                "hash": "7f7777e5d5b163c5d64201fd53e5682599548a49",
+                "size": 2860084
+            },
+            "minecraft/sounds/music/game/subwoofer_lullaby.ogg": {
+                "hash": "0dbcd56e6d8a931818f0913a0e23f784106d4ad8",
+                "size": 2196234
+            },
+            "minecraft/sounds/music/game/sweden.ogg": {
+                "hash": "be9b14926936c4509f7fe5002cdfbba3b2752d82",
+                "size": 2551609
+            },
+            "minecraft/sounds/music/game/wet_hands.ogg": {
+                "hash": "e8a73969b515a15df138a4d55b07f4ff573db25f",
+                "size": 986427
+            }
+        },
+        "overworld_new": {
+            "minecraft/sounds/music/game/a_familiar_room.ogg": {
+                "hash": "7f77e186063198933a7dd67eb492ae4d74839dd9",
+                "size": 2325765
+            },
+            "minecraft/sounds/music/game/an_ordinary_day.ogg": {
+                "hash": "ac88b24961961f52fbaf8efc55ae7e260b6f4ad2",
+                "size": 4424026
+            },
+            "minecraft/sounds/music/game/below_and_above.ogg": {
+                "hash": "29617ea7a07d4c3ed1b98b752b5740b8ca2e7cbf",
+                "size": 2587725
+            },
+            "minecraft/sounds/music/game/broken_clocks.ogg": {
+                "hash": "6095be3382a6b9897a7d0caf93131436e5cea4d6",
+                "size": 2960416
+            },
+            "minecraft/sounds/music/game/bromeliad.ogg": {
+                "hash": "4b7422b5e6324067f24ea7aee2b8f242ce46069b",
+                "size": 4498025
+            },
+            "minecraft/sounds/music/game/clark.ogg": {
+                "hash": "bbb301a6ed65e5e92eb97b601b9ea9979324bccf",
+                "size": 2145295
+            },
+            "minecraft/sounds/music/game/comforting_memories.ogg": {
+                "hash": "1c9aa4f2710ac7025a56f99feb132a29cf5a2b64",
+                "size": 3516383
+            },
+            "minecraft/sounds/music/game/crescent_dunes.ogg": {
+                "hash": "3de85c831b083e10d906c3ac007d7ca9f36b4075",
+                "size": 3899916
+            },
+            "minecraft/sounds/music/game/deeper.ogg": {
+                "hash": "8e901a9a5e4daee7e3cbff8a3529d0a4148f8406",
+                "size": 4419136
+            },
+            "minecraft/sounds/music/game/echo_in_the_wind.ogg": {
+                "hash": "5c97ac9788ab81e560bae32b0f5e4fc244e544b4",
+                "size": 3666137
+            },
+            "minecraft/sounds/music/game/eld_unknown.ogg": {
+                "hash": "1346ff09e77c8506476a017f63d9a820f25f0839",
+                "size": 4959623
+            },
+            "minecraft/sounds/music/game/endless.ogg": {
+                "hash": "14221fedadd7431bc557f36be1af86582955f7c5",
+                "size": 5323546
+            },
+            "minecraft/sounds/music/game/featherfall.ogg": {
+                "hash": "0c62057c8a75b57a8f06e7c1bc1b21a7f88d4820",
+                "size": 4731149
+            },
+            "minecraft/sounds/music/game/fireflies.ogg": {
+                "hash": "154255dcccfcde8af7e3727a0ccaaa72ea359ff5",
+                "size": 2030553
+            },
+            "minecraft/sounds/music/game/floating_dream.ogg": {
+                "hash": "dec42f5a10b6a0018594bdb868882ddccf04f52e",
+                "size": 2239177
+            },
+            "minecraft/sounds/music/game/infinite_amethyst.ogg": {
+                "hash": "f6dd3e263823fbc2051f441e5b12a02b2258ae84",
+                "size": 3827021
+            },
+            "minecraft/sounds/music/game/komorebi.ogg": {
+                "hash": "c3e6d3f34a7221360ad11d18335edd6709df4609",
+                "size": 3932384
+            },
+            "minecraft/sounds/music/game/left_to_bloom.ogg": {
+                "hash": "a971ae2004798c14bc3387cfd1b89420092b3263",
+                "size": 4663128
+            },
+            "minecraft/sounds/music/game/lilypad.ogg": {
+                "hash": "b023b1ddac5e027086ef04a9da7234e73a4502a6",
+                "size": 2911450
+            },
+            "minecraft/sounds/music/game/one_more_day.ogg": {
+                "hash": "324f58251829988ad3f4a5f7dc39b647fdcc2639",
+                "size": 4014339
+            },
+            "minecraft/sounds/music/game/os_piano.ogg": {
+                "hash": "a32d22b74e0a451083c99b68a0119b501652ccd8",
+                "size": 3454882
+            },
+            "minecraft/sounds/music/game/pokopoko.ogg": {
+                "hash": "2142a00de645aa748b908c74fc275a3025b8bd90",
+                "size": 4084418
+            },
+            "minecraft/sounds/music/game/puzzlebox.ogg": {
+                "hash": "cb01089f7f2a4e84b36790efa99f3ed89ef08f5e",
+                "size": 4245980
+            },
+            "minecraft/sounds/music/game/stand_tall.ogg": {
+                "hash": "e04acb34861b4ac53abf9c0e3aec3c0f83cefc0c",
+                "size": 4467248
+            },
+            "minecraft/sounds/music/game/swamp/aerie.ogg": {
+                "hash": "7d2d4b60ec51462992b7429aa861d03048cd43c1",
+                "size": 4081082
+            },
+            "minecraft/sounds/music/game/swamp/firebugs.ogg": {
+                "hash": "bea9b17990e1d513cab127ead72c8f655995109e",
+                "size": 4459869
+            },
+            "minecraft/sounds/music/game/swamp/labyrinthine.ogg": {
+                "hash": "c1a20b3df904eb16e6775b5624cbd3aa8619d3cb",
+                "size": 4702419
+            },
+            "minecraft/sounds/music/game/watcher.ogg": {
+                "hash": "4878a57f39655fedb891c16425e55a3cd91a2d70",
+                "size": 4645995
+            },
+            "minecraft/sounds/music/game/wending.ogg": {
+                "hash": "0cfa947f3d282bb02426b1c5e666b5dc28aff8a4",
+                "size": 4545206
+            },
+            "minecraft/sounds/music/game/yakusoku.ogg": {
+                "hash": "e36444071568c3273ea00627ed5462275cd6828e",
+                "size": 4009698
+            }
+        },
+        "underwater": {
+            "minecraft/sounds/music/game/water/axolotl.ogg": {
+                "hash": "12c0a5f206d75f11eaceb2395005038a496c8f11",
+                "size": 4228818
+            },
+            "minecraft/sounds/music/game/water/dragon_fish.ogg": {
+                "hash": "b6955f323aa2f2eb7f6b480c9d2f053f6a314b50",
+                "size": 4938753
+            },
+            "minecraft/sounds/music/game/water/shuniji.ogg": {
+                "hash": "94e5b3f27e93bd060066e3e8aa45aac7eeababf6",
+                "size": 3410016
+            }
+        },
+        "deep_dark": {
+            "minecraft/sounds/music/game/ancestry.ogg": {
+                "hash": "829c044d2c7189d938efb8cb89d1bb66b77c67da",
+                "size": 4522477
+            }
+        },
+        "creative": {
+            "minecraft/sounds/music/game/creative/aria_math.ogg": {
+                "hash": "2cc340b0663cc0b2c64e88e6daf0fc1a9b35fc2d",
+                "size": 3935087
+            },
+            "minecraft/sounds/music/game/creative/biome_fest.ogg": {
+                "hash": "741249a89e97577f7a5acf30ece523fde0042650",
+                "size": 4601385
+            },
+            "minecraft/sounds/music/game/creative/blind_spots.ogg": {
+                "hash": "37ca3a11409c7a70d81499cfd34c37b2b982239c",
+                "size": 4044890
+            },
+            "minecraft/sounds/music/game/creative/dreiton.ogg": {
+                "hash": "2382caaea57324875b9873cf1d93c5b3ad28f547",
+                "size": 6395784
+            },
+            "minecraft/sounds/music/game/creative/haunt_muskie.ogg": {
+                "hash": "0824e1e9c8faa785a8fe975421fae67c651b7333",
+                "size": 4002465
+            },
+            "minecraft/sounds/music/game/creative/taswell.ogg": {
+                "hash": "4b84efdf7e8a4e45279bfe841ac98ba46c4cc5e0",
+                "size": 5897513
+            },
+            "minecraft/sounds/music/game/oxygene.ogg": {
+                "hash": "b99889832d7f9abe35725506e4cd48075e25f957",
+                "size": 765694
+            }
+        },
+        "nether_old": {
+            "minecraft/sounds/music/game/nether/ballad_of_the_cats.ogg": {
+                "hash": "fa2719bb68297a235f970cf1f7bc105a5acf90c9",
+                "size": 3225721
+            },
+            "minecraft/sounds/music/game/nether/concrete_halls.ogg": {
+                "hash": "bc11027f0c3aabe6da20bf3f4ef734f96c6d9de1",
+                "size": 2968827
+            },
+            "minecraft/sounds/music/game/nether/dead_voxel.ogg": {
+                "hash": "bc83ef53bf163e45854a4e619c2c8f20017be979",
+                "size": 3234589
+            },
+            "minecraft/sounds/music/game/nether/warmth.ogg": {
+                "hash": "df444dec6fc366f517bcee5995dfe7148bf0b436",
+                "size": 2797184
+            }
+        },
+        "nether_new": {
+            "minecraft/sounds/music/game/nether/crimson_forest/chrysopoeia.ogg": {
+                "hash": "6855f8a8905b601cf5a15094a8ebeab066345cc2",
+                "size": 4217857
+            },
+            "minecraft/sounds/music/game/nether/nether_wastes/rubedo.ogg": {
+                "hash": "54f37a73d613c9e2f9c303f7c3f2180cbf67912b",
+                "size": 4287088
+            },
+            "minecraft/sounds/music/game/nether/soulsand_valley/so_below.ogg": {
+                "hash": "ce719536d17beda1445931d3ba33d3c23d51e48f",
+                "size": 4068042
+            }
+        },
+        "end": {
+            "minecraft/sounds/music/game/end/the_end.ogg": {
+                "hash": "853da2928e9ca37e6d7c9aeaad58d4cbfeca77d4",
+                "size": 11284337
+            }
+        },
+        "menu": {
+            "minecraft/sounds/music/menu/beginning_2.ogg": {
+                "hash": "fe440be99066e6efcdb809c00d706bc62a500184",
+                "size": 2176741
+            },
+            "minecraft/sounds/music/menu/floating_trees.ogg": {
+                "hash": "3cf507fd0a0288688962bd265839e4a706f5d24b",
+                "size": 2316450
+            },
+            "minecraft/sounds/music/menu/moog_city_2.ogg": {
+                "hash": "215583bfda553bb04b5b15ef27d643abfe5fa2f1",
+                "size": 2050243
+            },
+            "minecraft/sounds/music/menu/mutation.ogg": {
+                "hash": "f5d6381c34a8154bfd3fdbb67fa87d9fca6794f0",
+                "size": 2062591
+            }
+        }
+    }
+}
