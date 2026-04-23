@@ -1,8 +1,8 @@
 use std::fs;
 use std::path::{Component, Path};
-use std::process::Command;
 
 use serde_json::Value;
+use sha1::{Digest, Sha1};
 use tauri::path::BaseDirectory;
 use tauri::Manager;
 
@@ -37,27 +37,12 @@ fn find_hash_by_resource_path(root: &Value, resource_path: &str) -> Option<Strin
 }
 
 fn sha1_of_file(file_path: &Path) -> Result<String, String> {
-    let output = Command::new("sha1sum")
-        .arg(file_path)
-        .output()
-        .map_err(|e| format!("计算 SHA-1 失败 ({}): {e}", file_path.display()))?;
-
-    if !output.status.success() {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        return Err(format!(
-            "计算 SHA-1 失败 ({}): {}",
-            file_path.display(),
-            stderr.trim()
-        ));
-    }
-
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    let hash = stdout
-        .split_whitespace()
-        .next()
-        .ok_or_else(|| format!("解析 SHA-1 输出失败 ({})", file_path.display()))?;
-
-    Ok(hash.to_lowercase())
+    let data = fs::read(file_path)
+        .map_err(|e| format!("读取文件失败，无法计算 SHA-1 ({}): {e}", file_path.display()))?;
+    let mut hasher = Sha1::new();
+    hasher.update(data);
+    let hash = hasher.finalize();
+    Ok(format!("{hash:x}"))
 }
 
 /// 在 music.json 中，查询名为 resource_path 的 Object 的 hash 字段。
