@@ -117,6 +117,12 @@ function stop() {
   resetState()
 }
 
+// 从暂停中唤醒
+function wakeup() {
+  const audioEl = audioRef.value
+  return audioEl.play()
+}
+
 function resetState() {
   currentPromise = null
   resolveFn = null
@@ -131,6 +137,7 @@ defineExpose({
   play,
   pause,
   resume,
-  stop
+  stop,
+  wakeup
 })
 </script>

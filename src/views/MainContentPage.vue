@@ -10,6 +10,7 @@ const isPlaying = ref(false);
 const currentMusicPath = ref("未开始播放");
 const currentCollection = ref("overworld");
 const playerRef = ref<any>(null);
+const isMusicPlaying = ref(false)
 
 const labelText = computed(() => (isPlaying.value ? currentMusicPath.value : `Collection: ${currentCollection.value}`));
 
@@ -79,6 +80,7 @@ const playLoop = async (sessionId: number, conf: ConfObject) => {
       return;
     }
 
+    isMusicPlaying.value = true;
     const fullPath = "http://127.0.0.1:10454/assets/" + nextPath
     try {
       await playerRef.value?.play(fullPath)
@@ -86,6 +88,7 @@ const playLoop = async (sessionId: number, conf: ConfObject) => {
     catch (e) {
       return;
     }
+    isMusicPlaying.value = false;
     
 
     if (playSessionId !== sessionId) {
@@ -99,9 +102,17 @@ const playLoop = async (sessionId: number, conf: ConfObject) => {
   }
 };
 
+// 看门狗 -- 在audio元素意外暂停时恢复（如：设备睡眠醒来时）
+setInterval(() => {
+  if (isMusicPlaying.value) {
+    playerRef.value?.wakeup();
+  }
+}, 3000)
+
 const stopPlayback = () => {
   playSessionId += 1;
   isPlaying.value = false;
+  isMusicPlaying.value = false;
   playerRef.value?.stop();
 
   if (pendingTimer !== null) {
