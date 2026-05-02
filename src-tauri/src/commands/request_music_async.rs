@@ -37,8 +37,12 @@ fn find_hash_by_resource_path(root: &Value, resource_path: &str) -> Option<Strin
 }
 
 fn sha1_of_file(file_path: &Path) -> Result<String, String> {
-    let data = fs::read(file_path)
-        .map_err(|e| format!("读取文件失败，无法计算 SHA-1 ({}): {e}", file_path.display()))?;
+    let data = fs::read(file_path).map_err(|e| {
+        format!(
+            "读取文件失败，无法计算 SHA-1 ({}): {e}",
+            file_path.display()
+        )
+    })?;
     let mut hasher = Sha1::new();
     hasher.update(data);
     let hash = hasher.finalize();
