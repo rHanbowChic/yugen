@@ -36,10 +36,13 @@ pub fn run() {
 
             match app.cli().matches() {
                 Ok(matches) => {
-                    if matches.args.get("silent").unwrap().value.as_bool().unwrap() {
-                        let window = app.get_webview_window("main").unwrap();
-                        let _ = window.hide();
+                    if let Some(arg) = matches.args.get("silent") {
+                        if arg.value.as_bool().unwrap() {
+                            let window = app.get_webview_window("main").unwrap();
+                            let _ = window.hide();
+                        }
                     }
+                    
                 }
                 Err(_) => {}
             }
