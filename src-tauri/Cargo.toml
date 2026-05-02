@@ -1,6 +1,6 @@
 [package]
 name = "yugen"
-version = "1.2.0"
+version = "1.2.1"
 description = "Ambience Player with Minecraft music"
 authors = ["Ect07 <ect@vivaldi.net>"]
 edition = "2021"
