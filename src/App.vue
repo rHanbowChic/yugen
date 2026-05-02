@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { KeepAlive, ref } from "vue";
 import MainContentPage from "./views/MainContentPage.vue"
 import SettingsPage from "./views/SettingsPage.vue";
 
@@ -54,7 +54,9 @@ const currentPage = ref('home');
 
     <main class="app-main">
       <transition name="fade" mode="out-in">
+      <keep-alive>
         <component :is="{ home: MainContentPage, settings: SettingsPage }[currentPage]" />
+      </keep-alive>
       </transition>
       
       <!--div class="placeholder-content">
