@@ -35,17 +35,19 @@ const sleepWithCancel = (ms: number, sessionId: number): Promise<void> =>
 
 
 const playLoop = async (sessionId: number) => {
-  const minWait = Math.min(player_conf.minWait, player_conf.maxWait);
-  const maxWait = Math.max(player_conf.minWait, player_conf.maxWait);
-  const musicList = await getMusicFromCollection(player_conf.collection);
-
-  if (playSessionId !== sessionId || !musicList.length) {
-    isPlaying.value = false;
-    currentMusicPath.value = musicList.length ? currentMusicPath.value : "当前 Collection 没有可播放曲目";
-    return;
-  }
 
   while (playSessionId === sessionId) {
+    
+    const minWait = Math.min(player_conf.minWait, player_conf.maxWait);
+    const maxWait = Math.max(player_conf.minWait, player_conf.maxWait);
+    const musicList = await getMusicFromCollection(player_conf.collection);
+
+    if (playSessionId !== sessionId || !musicList.length) {
+      isPlaying.value = false;
+      currentMusicPath.value = musicList.length ? currentMusicPath.value : "当前 Collection 没有可播放曲目";
+      return;
+    }
+
     const nextPath = musicList[randomInt(0, musicList.length - 1)];
     currentMusicPath.value = nextPath;
 
