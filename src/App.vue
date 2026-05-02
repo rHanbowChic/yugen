@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { KeepAlive, ref } from "vue";
+import { ref } from "vue";
 import MainContentPage from "./views/MainContentPage.vue"
 import SettingsPage from "./views/SettingsPage.vue";
 
