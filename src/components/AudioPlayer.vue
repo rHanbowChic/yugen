@@ -1,9 +1,11 @@
 <template>
   <audio ref="audioRef"></audio>
+  <SilentAudio />
 </template>
 
 <script setup>
 import { ref, onBeforeUnmount } from 'vue'
+import SilentAudio from './SilentAudio.vue'
 
 const audioRef = ref(null)
 
