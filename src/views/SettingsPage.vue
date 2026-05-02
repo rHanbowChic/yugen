@@ -1,11 +1,10 @@
 <script setup lang="ts">
 // 这个组件不能再直接添加新内容了（过于臃肿），请把新内容放在其他组件，在这里调用
-import { computed, onMounted, reactive, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import * as autostart from "@tauri-apps/plugin-autostart";
 import player_conf from "../store/player_conf";
 import { getDefaultMinMaxWait, getMusicFromCollection, requireMusicDownload } from "../utils/utils";
 
-const STORAGE_KEY = "yugen_conf";
 const SEC = 1000;
 
 type CollectionOption = {
