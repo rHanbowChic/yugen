@@ -43,5 +43,16 @@
     "resources": [
       "resources/music.json"
     ]
+  },
+  "plugins": {
+    "cli": {
+      "args": [
+        {
+          "short": "s",
+          "name": "silent",
+          "description": "Silently run the application without opening the window"
+        }
+      ]
+    }
   }
 }

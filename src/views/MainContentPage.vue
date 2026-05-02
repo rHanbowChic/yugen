@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import AudioPlayer from "../components/AudioPlayer.vue";
 import player_conf from "../store/player_conf";
 import { getMusicFromCollection, requireMusicDownload } from "../utils/utils";
+import { getMatches } from "@tauri-apps/plugin-cli";
 
 const isPlaying = ref(false);
 const currentMusicPath = ref("未开始播放");
@@ -37,7 +38,7 @@ const sleepWithCancel = (ms: number, sessionId: number): Promise<void> =>
 const playLoop = async (sessionId: number) => {
 
   while (playSessionId === sessionId) {
-    
+
     const minWait = Math.min(player_conf.minWait, player_conf.maxWait);
     const maxWait = Math.max(player_conf.minWait, player_conf.maxWait);
     const musicList = await getMusicFromCollection(player_conf.collection);
@@ -124,6 +125,16 @@ const togglePlay = () => {
   }
   void startPlayback();
 };
+
+onMounted(async () => {
+  const matches = await getMatches();
+  const args = matches.args;
+  if (args.silent?.value) {
+    if(!isPlaying.value) {
+      togglePlay();
+    }
+  }
+})
 
 </script>
 

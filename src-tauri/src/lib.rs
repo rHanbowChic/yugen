@@ -7,6 +7,7 @@ use tauri::{
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
     Manager, WindowEvent,
 };
+use tauri_plugin_cli::CliExt;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -32,6 +33,17 @@ pub fn run() {
                 tray_builder = tray_builder.icon(icon.clone());
             }
             tray_builder.build(app)?;
+
+            match app.cli().matches() {
+                Ok(matches) => {
+                    if matches.args.get("silent").unwrap().value.as_bool().unwrap() {
+                        let window = app.get_webview_window("main").unwrap();
+                        let _ = window.hide();
+                    }
+                }
+                Err(_) => {}
+            }
+
             Ok(())
         })
         .on_menu_event(|app, event| {
