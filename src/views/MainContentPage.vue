@@ -1,40 +1,21 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import AudioPlayer from "../components/AudioPlayer.vue";
-import { ConfObject } from "../models/ConfObject";
+import player_conf from "../store/player_conf";
 import { getMusicFromCollection, requireMusicDownload } from "../utils/utils";
-
-const STORAGE_KEY = "yugen_conf";
 
 const isPlaying = ref(false);
 const currentMusicPath = ref("未开始播放");
-const currentCollection = ref("overworld");
 const playerRef = ref<any>(null);
 const isMusicPlaying = ref(false)
+
+const currentCollection = computed(() => player_conf.collection)
 
 const labelText = computed(() => (isPlaying.value ? currentMusicPath.value : `Collection: ${currentCollection.value}`));
 
 let playSessionId = 0;
 let pendingTimer: number | null = null;
 
-const loadConf = (): ConfObject => {
-  const fallback = new ConfObject();
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) {
-    return fallback;
-  }
-
-  try {
-    const parsed = JSON.parse(raw) as Partial<ConfObject>;
-    return new ConfObject(
-      typeof parsed.collection === "string" ? parsed.collection : fallback.collection,
-      Number.isFinite(parsed.minWait) ? Number(parsed.minWait) : fallback.minWait,
-      Number.isFinite(parsed.maxWait) ? Number(parsed.maxWait) : fallback.maxWait
-    );
-  } catch {
-    return fallback;
-  }
-};
 
 const randomInt = (min: number, max: number): number => {
   if (max <= min) {
@@ -53,10 +34,10 @@ const sleepWithCancel = (ms: number, sessionId: number): Promise<void> =>
   });
 
 
-const playLoop = async (sessionId: number, conf: ConfObject) => {
-  const minWait = Math.min(conf.minWait, conf.maxWait);
-  const maxWait = Math.max(conf.minWait, conf.maxWait);
-  const musicList = await getMusicFromCollection(conf.collection);
+const playLoop = async (sessionId: number) => {
+  const minWait = Math.min(player_conf.minWait, player_conf.maxWait);
+  const maxWait = Math.max(player_conf.minWait, player_conf.maxWait);
+  const musicList = await getMusicFromCollection(player_conf.collection);
 
   if (playSessionId !== sessionId || !musicList.length) {
     isPlaying.value = false;
@@ -122,14 +103,12 @@ const stopPlayback = () => {
 };
 
 const startPlayback = async () => {
-  const conf = loadConf();
-  currentCollection.value = conf.collection;
   isPlaying.value = true;
   const sessionId = playSessionId + 1;
   playSessionId = sessionId;
 
   try {
-    await playLoop(sessionId, conf);
+    await playLoop(sessionId);
   } catch (error) {
     console.error("播放循环失败:", error);
     stopPlayback();
@@ -144,10 +123,6 @@ const togglePlay = () => {
   void startPlayback();
 };
 
-onMounted(() => {
-  const conf = loadConf();
-  currentCollection.value = conf.collection;
-})
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 // 这个组件不能再直接添加新内容了（过于臃肿），请把新内容放在其他组件，在这里调用
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import * as autostart from "@tauri-apps/plugin-autostart";
-import { ConfObject } from "../models/ConfObject";
+import player_conf from "../store/player_conf";
 import { getDefaultMinMaxWait, getMusicFromCollection, requireMusicDownload } from "../utils/utils";
 
 const STORAGE_KEY = "yugen_conf";
@@ -37,32 +37,6 @@ const normalizeWait = (value: number, fallback: number): number => {
   return normalized > 0 ? normalized : fallback;
 };
 
-const getDefaultConf = (): ConfObject => {
-  const collection = "overworld";
-  const [minWait, maxWait] = getDefaultMinMaxWait(collection);
-  return new ConfObject(collection, minWait, maxWait);
-};
-
-const loadConf = (): ConfObject => {
-  const fallback = getDefaultConf();
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) {
-    return fallback;
-  }
-
-  try {
-    const parsed = JSON.parse(raw) as Partial<ConfObject>;
-    const collection = typeof parsed.collection === "string" ? parsed.collection : fallback.collection;
-    const [defaultMin, defaultMax] = getDefaultMinMaxWait(collection);
-    const minWait = normalizeWait(parsed.minWait ?? defaultMin, defaultMin);
-    const maxWait = normalizeWait(parsed.maxWait ?? defaultMax, defaultMax);
-    return new ConfObject(collection, Math.min(minWait, maxWait), Math.max(minWait, maxWait));
-  } catch {
-    return fallback;
-  }
-};
-
-const conf = reactive<ConfObject>(loadConf());
 const isBatchDownloading = ref(false);
 const currentDownloadingMusic = ref("");
 const autostartEnabled = ref(false);
@@ -70,32 +44,23 @@ const autostartLoading = ref(true);
 const autostartAvailable = ref(true);
 
 const minWaitSeconds = computed<number>({
-  get: () => Math.floor(conf.minWait / SEC),
+  get: () => Math.floor(player_conf.minWait / SEC),
   set: (value: number) => {
-    conf.minWait = normalizeWait(value * SEC, 60 * SEC);
+    player_conf.minWait = normalizeWait(value * SEC, 60 * SEC);
   },
 });
 
 const maxWaitSeconds = computed<number>({
-  get: () => Math.floor(conf.maxWait / SEC),
+  get: () => Math.floor(player_conf.maxWait / SEC),
   set: (value: number) => {
-    conf.maxWait = normalizeWait(value * SEC, 60 * SEC);
+    player_conf.maxWait = normalizeWait(value * SEC, 60 * SEC);
   },
 });
 
-const persistConf = () => {
-  const safeMin = normalizeWait(conf.minWait, 60 * 1000);
-  const safeMax = normalizeWait(conf.maxWait, safeMin);
-  conf.minWait = Math.min(safeMin, safeMax);
-  conf.maxWait = Math.max(safeMin, safeMax);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(new ConfObject(conf.collection, conf.minWait, conf.maxWait)));
-};
-
 const onCollectionChange = () => {
-  const [nextMin, nextMax] = getDefaultMinMaxWait(conf.collection);
-  conf.minWait = nextMin;
-  conf.maxWait = nextMax;
-  persistConf();
+  const [nextMin, nextMax] = getDefaultMinMaxWait(player_conf.collection);
+  player_conf.minWait = nextMin;
+  player_conf.maxWait = nextMax;
 };
 
 const getMusicLabel = (musicPath: string): string => {
@@ -110,7 +75,7 @@ const onDownloadCurrentCollectionMusic = async () => {
   isBatchDownloading.value = true;
   currentDownloadingMusic.value = "";
   try {
-    const musicPathList = await getMusicFromCollection(conf.collection);
+    const musicPathList = await getMusicFromCollection(player_conf.collection);
     for (const musicPath of musicPathList) {
       currentDownloadingMusic.value = getMusicLabel(musicPath);
       await requireMusicDownload(musicPath);
@@ -120,13 +85,6 @@ const onDownloadCurrentCollectionMusic = async () => {
     isBatchDownloading.value = false;
   }
 };
-
-watch(
-  () => [conf.collection, conf.minWait, conf.maxWait],
-  () => {
-    persistConf();
-  }
-);
 
 onMounted(async () => {
   try {
@@ -162,7 +120,7 @@ const onAutostartChange = async (event: Event) => {
     <div class="panel">
       <div class="field">
         <label for="collection">Collection</label>
-        <select id="collection" v-model="conf.collection" @change="onCollectionChange">
+        <select id="collection" v-model="player_conf.collection" @change="onCollectionChange">
           <option v-for="item in collectionOptions" :key="item.value" :value="item.value">
             {{ item.label }}
           </option>
