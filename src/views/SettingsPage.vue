@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // 这个组件不能再直接添加新内容了（过于臃肿），请把新内容放在其他组件，在这里调用
-import { computed, reactive, ref, watch } from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
+import * as autostart from "@tauri-apps/plugin-autostart";
 import { ConfObject } from "../models/ConfObject";
 import { getDefaultMinMaxWait, getMusicFromCollection, requireMusicDownload } from "../utils/utils";
 
@@ -64,6 +65,9 @@ const loadConf = (): ConfObject => {
 const conf = reactive<ConfObject>(loadConf());
 const isBatchDownloading = ref(false);
 const currentDownloadingMusic = ref("");
+const autostartEnabled = ref(false);
+const autostartLoading = ref(true);
+const autostartAvailable = ref(true);
 
 const minWaitSeconds = computed<number>({
   get: () => Math.floor(conf.minWait / SEC),
@@ -123,6 +127,31 @@ watch(
     persistConf();
   }
 );
+
+onMounted(async () => {
+  try {
+    autostartEnabled.value = await autostart.isEnabled();
+  } catch {
+    autostartAvailable.value = false;
+  } finally {
+    autostartLoading.value = false;
+  }
+});
+
+const onAutostartChange = async (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  const next = input.checked;
+  try {
+    if (next) {
+      await autostart.enable();
+    } else {
+      await autostart.disable();
+    }
+    autostartEnabled.value = next;
+  } catch {
+    input.checked = autostartEnabled.value;
+  }
+};
 </script>
 
 <template>
@@ -148,6 +177,20 @@ watch(
         <p v-if="isBatchDownloading" class="download-status">
           正在下载：{{ currentDownloadingMusic || "准备中..." }}
         </p>
+      </div>
+
+      <div class="field">
+        <label class="checkbox-row" :class="{ disabled: !autostartAvailable || autostartLoading }">
+          <input
+            id="autostart"
+            type="checkbox"
+            :checked="autostartEnabled"
+            :disabled="!autostartAvailable || autostartLoading"
+            @change="onAutostartChange"
+          />
+          <span>开机自启动</span>
+        </label>
+        <p v-if="!autostartAvailable" class="download-status">仅在 Tauri 桌面环境中可用。</p>
       </div>
 
       <div class="field-row">
@@ -259,6 +302,31 @@ select {
   margin: 4px 0 0;
   color: #444;
   font-size: 13px;
+}
+
+.checkbox-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-row.disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.checkbox-row.disabled input[type="checkbox"] {
+  cursor: not-allowed;
 }
 
 .about p {
