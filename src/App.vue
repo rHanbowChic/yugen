@@ -51,13 +51,9 @@ const currentPage = ref('home');
         </button>
       </nav>
     </header>
-
     <main class="app-main">
-      <transition name="fade" mode="out-in">
-      <keep-alive>
-        <component :is="{ home: MainContentPage, settings: SettingsPage }[currentPage]" />
-      </keep-alive>
-      </transition>
+      <MainContentPage :style="{ display: currentPage === 'home' ? null : 'none' }" />
+      <SettingsPage :style="{ display: currentPage === 'settings' ? null : 'none' }" />
       
       <!--div class="placeholder-content">
         {{ currentPage === 'home' ? '主页内容区域' : '设置内容区域' }}
