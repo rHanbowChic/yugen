@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import AudioPlayer from "../components/AudioPlayer.vue";
 import player_conf from "../store/player_conf";
 import { getMusicFromCollection, requireMusicDownload } from "../utils/utils";
 import { getMatches } from "@tauri-apps/plugin-cli";
+import { listen } from "@tauri-apps/api/event";
 
 const isPlaying = ref(false);
 const currentMusicPath = ref("未开始播放");
@@ -126,7 +127,10 @@ const togglePlay = () => {
   void startPlayback();
 };
 
+let removeTogglePlayListener: Function;
+
 onMounted(async () => {
+  // 处理命令行参数
   const matches = await getMatches();
   const args = matches.args;
   if (args.silent?.value) {
@@ -134,6 +138,14 @@ onMounted(async () => {
       togglePlay();
     }
   }
+  // 响应托盘菜单请求
+  removeTogglePlayListener = await listen('toggle-play', () => {
+    togglePlay()
+  })
+})
+
+onUnmounted(() => {
+  removeTogglePlayListener?.()
 })
 
 </script>

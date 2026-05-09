@@ -5,7 +5,7 @@ pub mod models;
 use tauri::{
     menu::{Menu, MenuItem},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
-    Manager, WindowEvent,
+    Manager, WindowEvent, Emitter
 };
 use tauri_plugin_autostart::MacosLauncher;
 use tauri_plugin_cli::CliExt;
@@ -28,7 +28,8 @@ pub fn run() {
         .setup(|app| {
             let close_item = MenuItem::with_id(app, "quit", "退出", true, None::<&str>)?;
             let show_item = MenuItem::with_id(app, "show", "显示主界面", true, None::<&str>)?;
-            let tray_menu = Menu::with_items(app, &[&show_item, &close_item])?;
+            let toggle_play_item = MenuItem::with_id(app, "toggle-play", "播放/暂停", true, None::<&str>)?;
+            let tray_menu = Menu::with_items(app, &[&show_item, &toggle_play_item, &close_item])?;
 
             let mut tray_builder = TrayIconBuilder::new().menu(&tray_menu);
             if let Some(icon) = app.default_window_icon() {
@@ -60,6 +61,11 @@ pub fn run() {
                 if !window.is_visible().unwrap_or(false) {
                     let _ = window.show();
                     let _ = window.set_focus();
+                }
+            }
+            if event.id().as_ref() == "toggle-play" {
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.emit("toggle-play", ());
                 }
             }
         })
