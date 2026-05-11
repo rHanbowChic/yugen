@@ -110,6 +110,7 @@ function stop() {
   audioEl.currentTime = 0
 
   cleanupUrl()
+  audioEl.src = ""
 
   // 中断 await
   if (rejectFn) {
