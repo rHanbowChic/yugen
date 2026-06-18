@@ -162,6 +162,26 @@
             "minecraft/sounds/music/game/yakusoku.ogg": {
                 "hash": "e36444071568c3273ea00627ed5462275cd6828e",
                 "size": 4009698
+            },
+            "minecraft/sounds/music/game/ebb.ogg": {
+                "hash": "5e1288786fa59686f2c000ed90c2e3b89d125460",
+                "size": 4113422
+            },
+            "minecraft/sounds/music/game/home.ogg": {
+                "hash": "c00e50dc3ac0d08faf529dff0e6e620a81221f47",
+                "size": 4718595
+            },
+            "minecraft/sounds/music/game/memories.ogg": {
+                "hash": "8a91604916a4b53e0a3a913917f5fec0539c6a2e",
+                "size": 3396348
+            },
+            "minecraft/sounds/music/game/nightly.ogg": {
+                "hash": "aebe56d3016657dfeacfadb953424079c7e3d32c",
+                "size": 4267032
+            },
+            "minecraft/sounds/music/game/shores.ogg": {
+                "hash": "974c6083c8de0de74185e966d664bf0a5841bc22",
+                "size": 4414349
             }
         },
         "underwater": {
