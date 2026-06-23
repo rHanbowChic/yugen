@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from "vue";
+import { Play, Pause } from "@lucide/vue";
 import AudioPlayer from "../components/AudioPlayer.vue";
 import player_conf from "../store/player_conf";
 import { getMusicFromCollection, requireMusicDownload } from "../utils/utils";
@@ -9,15 +10,16 @@ import { listen } from "@tauri-apps/api/event";
 const isPlaying = ref(false);
 const currentMusicPath = ref("未开始播放");
 const playerRef = ref<any>(null);
-const isMusicPlaying = ref(false)
+const isMusicPlaying = ref(false);
 
-const currentCollection = computed(() => player_conf.collection)
+const currentCollection = computed(() => player_conf.collection);
 
-const labelText = computed(() => (isPlaying.value ? currentMusicPath.value : `Collection: ${currentCollection.value}`));
+const labelText = computed(() =>
+  isPlaying.value ? currentMusicPath.value : `Collection: ${currentCollection.value}`
+);
 
 let playSessionId = 0;
 let pendingTimer: number | null = null;
-
 
 const randomInt = (min: number, max: number): number => {
   if (max <= min) {
@@ -35,11 +37,8 @@ const sleepWithCancel = (ms: number, sessionId: number): Promise<void> =>
     }, ms);
   });
 
-
 const playLoop = async (sessionId: number) => {
-
   while (playSessionId === sessionId) {
-
     const minWait = Math.min(player_conf.minWait, player_conf.maxWait);
     const maxWait = Math.max(player_conf.minWait, player_conf.maxWait);
     const musicList = await getMusicFromCollection(player_conf.collection);
@@ -66,22 +65,20 @@ const playLoop = async (sessionId: number) => {
     }
 
     isMusicPlaying.value = true;
-    const fullPath = "http://127.0.0.1:10454/assets/" + nextPath
+    const fullPath = "http://127.0.0.1:10454/assets/" + nextPath;
     try {
-      await playerRef.value?.play(fullPath)
-    }
-    catch (e) {
+      await playerRef.value?.play(fullPath);
+    } catch (e) {
       return;
     }
     isMusicPlaying.value = false;
-    
 
     if (playSessionId !== sessionId) {
       return;
     }
 
-    currentMusicPath.value = "..."
-    document.title = "..."
+    currentMusicPath.value = "...";
+    document.title = "...";
     const waitMs = randomInt(minWait, maxWait);
     await sleepWithCancel(waitMs, sessionId);
   }
@@ -92,7 +89,7 @@ setInterval(() => {
   if (isMusicPlaying.value) {
     playerRef.value?.wakeup();
   }
-}, 3000)
+}, 3000);
 
 const stopPlayback = () => {
   playSessionId += 1;
@@ -134,97 +131,55 @@ onMounted(async () => {
   const matches = await getMatches();
   const args = matches.args;
   if (args.silent?.value) {
-    if(!isPlaying.value) {
+    if (!isPlaying.value) {
       togglePlay();
     }
   }
   // 响应托盘菜单请求
-  removeTogglePlayListener = await listen('toggle-play', () => {
-    togglePlay()
-  })
-})
+  removeTogglePlayListener = await listen("toggle-play", () => {
+    togglePlay();
+  });
+});
 
 onUnmounted(() => {
-  removeTogglePlayListener?.()
-})
-
+  removeTogglePlayListener?.();
+});
 </script>
 
 <template>
-  <div class="page-container">
-    <div class="label">{{ labelText }}</div>
-    <button class="player-button" @click="togglePlay" :aria-label="isPlaying ? '暂停' : '播放'">
-      <transition name="fade" mode="out-in">
-        <svg v-if="!isPlaying" key="play" viewBox="0 0 24 24" class="icon">
-          <path d="M8 5v14l11-7z" fill="currentColor" />
-        </svg>
-        <svg v-else key="pause" viewBox="0 0 24 24" class="icon">
-          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor" />
-        </svg>
-      </transition>
-    </button>
-    <AudioPlayer ref="playerRef" />
+  <div class="h-full w-full flex flex-col justify-around items-center bg-background">
+    <!-- Music label -->
+    <p class="text-2xl text-muted-foreground text-center px-4">{{ labelText }}</p>
 
+    <!-- Play / Pause button -->
+    <button
+      class="size-20 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer border-0 outline-none"
+      :class="
+        isPlaying
+          ? 'bg-primary/70 hover:bg-primary/60 active:scale-95'
+          : 'bg-primary/90 hover:bg-primary/85 active:scale-95'
+      "
+      @click="togglePlay"
+      :aria-label="isPlaying ? '暂停' : '播放'"
+    >
+      <Transition name="fade" mode="out-in">
+        <Play v-if="!isPlaying" key="play" class="size-8 text-primary-foreground" />
+        <Pause v-else key="pause" class="size-8 text-primary-foreground" />
+      </Transition>
+    </button>
+
+    <AudioPlayer ref="playerRef" />
   </div>
 </template>
 
 <style scoped>
-.page-container {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  background-color: #f5f5f5;
-}
-
-.player-button {
-  width: 80px;
-  height: 80px;
-  background-color: rgba(60, 119, 185, 0.9);
-  border: 1px solid rgba(60, 119, 185, 0.8);
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #ffffff;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(8px); /* 磨砂玻璃效果 */
-  outline: none;
-}
-
-.player-button:hover {
-  background-color: rgba(60, 119, 185, 0.85);
-  transform: scale(1.05);
-  border-color: rgba(60, 119, 185, 0.6);
-}
-
-.player-button:active {
-  transform: scale(0.95);
-  background-color: rgba(60, 119, 185, 0.15);
-}
-
-.icon {
-  width: 40px;
-  height: 40px;
-  /* 视觉修正：播放图标稍微向右偏移一点，使其在视觉上更居中 */
-}
-
-/* 切换动画 */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
   transform: scale(0.8);
-}
-
-.label {
-  font-size: 24px;
 }
 </style>
