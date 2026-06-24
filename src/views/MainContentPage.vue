@@ -146,7 +146,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="h-full w-full flex flex-col justify-around items-center bg-background">
+  <div class="h-full w-full flex flex-col justify-around items-center bg-transparent">
     <!-- Music label -->
     <p class="text-2xl text-muted-foreground text-center px-4">{{ labelText }}</p>
 

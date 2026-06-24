@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from "vue";
 import * as autostart from "@tauri-apps/plugin-autostart";
 import { Download } from "@lucide/vue";
 import player_conf from "../store/player_conf";
+import { COLLECTIONS } from "@/constants";
 import { getDefaultMinMaxWait, getMusicFromCollection, requireMusicDownload } from "../utils/utils";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
@@ -79,8 +80,9 @@ const maxWaitSeconds = computed<number>({
 
 const onCollectionChange = () => {
   const [nextMin, nextMax] = getDefaultMinMaxWait(player_conf.collection);
-  player_conf.minWait = nextMin;
-  player_conf.maxWait = nextMax;
+  player_conf.minWait = COLLECTIONS[player_conf.collection].minWait;
+  player_conf.maxWait = COLLECTIONS[player_conf.collection].maxWait;
+  player_conf.bgColor = COLLECTIONS[player_conf.collection].bgColor;
 };
 
 const getMusicLabel = (musicPath: string): string => {
@@ -132,7 +134,7 @@ const onAutostartChange = async (next: boolean | "indeterminate") => {
 </script>
 
 <template>
-  <div class="h-full w-full flex flex-col items-center justify-center bg-background overflow-auto">
+  <div class="h-full w-full flex flex-col items-center justify-center bg-transparent overflow-auto">
     <div class="w-full max-w-2xl px-6 py-8 space-y-8">
       <!-- 播放设置 -->
       <Card>
