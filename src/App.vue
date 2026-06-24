@@ -55,7 +55,7 @@ const glowRgb = computed(() => {
       <div
         class="glow-orb glow-orb--secondary"
         :style="{
-          background: `radial-gradient(circle at center, rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},0.65) 0%, rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},0.01) 70%, transparent 100%)`,
+          background: `radial-gradient(circle at center, rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},0.75) 0%, rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},0.01) 70%, transparent 100%)`,
         }"
       />
     </div>
@@ -127,8 +127,8 @@ const glowRgb = computed(() => {
 
 /* 辅助光晕：稍小，偏右下，呼吸节奏错开 */
 .glow-orb--secondary {
-  width: min(70vw, 70vh);
-  height: min(70vw, 70vh);
+  width: min(75vw, 75vh);
+  height: min(75vw, 75vh);
   bottom: 0;
   right: 0;
   animation: glow-breathe 10s ease-in-out infinite 4s;
