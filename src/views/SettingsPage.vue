@@ -5,7 +5,7 @@ import * as autostart from "@tauri-apps/plugin-autostart";
 import { Download } from "@lucide/vue";
 import player_conf from "../store/player_conf";
 import { COLLECTIONS } from "@/constants";
-import { getDefaultMinMaxWait, getMusicFromCollection, requireMusicDownload } from "../utils/utils";
+import { getMusicFromCollection, requireMusicDownload } from "../utils/utils";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -79,7 +79,6 @@ const maxWaitSeconds = computed<number>({
 });
 
 const onCollectionChange = () => {
-  const [nextMin, nextMax] = getDefaultMinMaxWait(player_conf.collection);
   player_conf.minWait = COLLECTIONS[player_conf.collection].minWait;
   player_conf.maxWait = COLLECTIONS[player_conf.collection].maxWait;
   player_conf.bgColor = COLLECTIONS[player_conf.collection].bgColor;
