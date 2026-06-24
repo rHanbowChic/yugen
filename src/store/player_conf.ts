@@ -6,6 +6,7 @@ const data = reactive({
     collection: "overworld",
     minWait: 10*60*1000,
     maxWait: 20*60*1000,
+    bgColor: "#A8C7B8",  // 草绿色
 })
 
 

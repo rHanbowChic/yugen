@@ -3,19 +3,18 @@ import { computed, onMounted, onUnmounted, ref } from "vue";
 import { Play, Pause } from "@lucide/vue";
 import AudioPlayer from "../components/AudioPlayer.vue";
 import player_conf from "../store/player_conf";
+import player_state from "../store/player_state"
 import { getMusicFromCollection, requireMusicDownload } from "../utils/utils";
 import { getMatches } from "@tauri-apps/plugin-cli";
 import { listen } from "@tauri-apps/api/event";
 
-const isPlaying = ref(false);
-const currentMusicPath = ref("未开始播放");
 const playerRef = ref<any>(null);
 const isMusicPlaying = ref(false);
 
 const currentCollection = computed(() => player_conf.collection);
 
 const labelText = computed(() =>
-  isPlaying.value ? currentMusicPath.value : `Collection: ${currentCollection.value}`
+  player_state.on ? player_state.path : `Collection: ${currentCollection.value}`
 );
 
 let playSessionId = 0;
@@ -44,13 +43,13 @@ const playLoop = async (sessionId: number) => {
     const musicList = await getMusicFromCollection(player_conf.collection);
 
     if (playSessionId !== sessionId || !musicList.length) {
-      isPlaying.value = false;
-      currentMusicPath.value = musicList.length ? currentMusicPath.value : "当前 Collection 没有可播放曲目";
+      player_state.on = false;
+      player_state.path = musicList.length ? player_state.path : "当前 Collection 没有可播放曲目";
       return;
     }
 
     const nextPath = musicList[randomInt(0, musicList.length - 1)];
-    currentMusicPath.value = nextPath;
+    player_state.path = nextPath;
 
     await requireMusicDownload(nextPath);
 
@@ -77,7 +76,7 @@ const playLoop = async (sessionId: number) => {
       return;
     }
 
-    currentMusicPath.value = "...";
+    player_state.path = "...";
     document.title = "...";
     const waitMs = randomInt(minWait, maxWait);
     await sleepWithCancel(waitMs, sessionId);
@@ -93,7 +92,7 @@ setInterval(() => {
 
 const stopPlayback = () => {
   playSessionId += 1;
-  isPlaying.value = false;
+  player_state.on = false;
   isMusicPlaying.value = false;
   playerRef.value?.stop();
 
@@ -104,7 +103,7 @@ const stopPlayback = () => {
 };
 
 const startPlayback = async () => {
-  isPlaying.value = true;
+  player_state.on = true;
   const sessionId = playSessionId + 1;
   playSessionId = sessionId;
 
@@ -117,7 +116,7 @@ const startPlayback = async () => {
 };
 
 const togglePlay = () => {
-  if (isPlaying.value) {
+  if (player_state.on) {
     stopPlayback();
     return;
   }
@@ -131,7 +130,7 @@ onMounted(async () => {
   const matches = await getMatches();
   const args = matches.args;
   if (args.silent?.value) {
-    if (!isPlaying.value) {
+    if (!player_state.on) {
       togglePlay();
     }
   }
@@ -155,15 +154,15 @@ onUnmounted(() => {
     <button
       class="size-20 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer border-0 outline-none"
       :class="
-        isPlaying
+        player_state.on
           ? 'bg-primary/70 hover:bg-primary/60 active:scale-95'
           : 'bg-primary/90 hover:bg-primary/85 active:scale-95'
       "
       @click="togglePlay"
-      :aria-label="isPlaying ? '暂停' : '播放'"
+      :aria-label="player_state.on ? '暂停' : '播放'"
     >
       <Transition name="fade" mode="out-in">
-        <Play v-if="!isPlaying" key="play" class="size-8 text-primary-foreground" />
+        <Play v-if="!player_state.on" key="play" class="size-8 text-primary-foreground" />
         <Pause v-else key="pause" class="size-8 text-primary-foreground" />
       </Transition>
     </button>
