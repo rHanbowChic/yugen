@@ -152,7 +152,7 @@ onUnmounted(() => {
 
     <!-- Play / Pause button -->
     <button
-      class="size-20 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer border-0 outline-none"
+      class="size-22 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer border-0 outline-none"
       :class="
         player_state.on
           ? 'bg-primary/70 hover:bg-primary/60 active:scale-95'
@@ -162,8 +162,8 @@ onUnmounted(() => {
       :aria-label="player_state.on ? '暂停' : '播放'"
     >
       <Transition name="fade" mode="out-in">
-        <Play v-if="!player_state.on" key="play" class="size-8 text-primary-foreground" />
-        <Pause v-else key="pause" class="size-8 text-primary-foreground" />
+        <Play v-if="!player_state.on" key="play" class="size-9 text-primary-foreground" />
+        <Pause v-else key="pause" class="size-9 text-primary-foreground" />
       </Transition>
     </button>
 
