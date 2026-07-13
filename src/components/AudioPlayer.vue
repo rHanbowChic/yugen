@@ -126,6 +126,11 @@ function wakeup() {
   return audioEl.play()
 }
 
+function setVolume(volume) {
+  const audioEl = audioRef.value
+  audioEl.volume = volume
+}
+
 function resetState() {
   currentPromise = null
   resolveFn = null
@@ -141,6 +146,7 @@ defineExpose({
   pause,
   resume,
   stop,
-  wakeup
+  wakeup,
+  setVolume,
 })
 </script>

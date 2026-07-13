@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { Play, Pause } from "@lucide/vue";
 import AudioPlayer from "../components/AudioPlayer.vue";
 import player_conf from "../store/player_conf";
@@ -138,11 +138,20 @@ onMounted(async () => {
   removeTogglePlayListener = await listen("toggle-play", () => {
     togglePlay();
   });
+  // 设置正确的音量
+  playerRef.value?.setVolume(player_conf.musicVolume);
 });
 
 onUnmounted(() => {
   removeTogglePlayListener?.();
 });
+
+watch(player_conf, (conf) => {
+  if (playerRef.value) {
+    playerRef.value?.setVolume(conf.musicVolume);
+  }
+})
+
 </script>
 
 <template>

@@ -10,6 +10,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Checkbox } from "../components/ui/checkbox";
+import { Slider } from "../components/ui/slider";
 import {
   Select,
   SelectContent,
@@ -75,6 +76,13 @@ const maxWaitSeconds = computed<number>({
   get: () => Math.floor(player_conf.maxWait / SEC),
   set: (value: number) => {
     player_conf.maxWait = normalizeWait(value * SEC, 60 * SEC);
+  },
+});
+
+const musicVolumePercent = computed<number>({
+  get: () => Math.round(player_conf.musicVolume * 100),
+  set: (value: number) => {
+    player_conf.musicVolume = value / 100;
   },
 });
 
@@ -214,6 +222,18 @@ const onAutostartChange = async (next: boolean | "indeterminate") => {
               <Label for="maxWait">maxWait（秒）</Label>
               <Input id="maxWait" v-model.number="maxWaitSeconds" type="number" min="1" step="1" />
             </div>
+          </div>
+
+          <!-- 音量 -->
+          <div class="space-y-2">
+            <Label for="musicVolume">音量 — {{ musicVolumePercent }}%</Label>
+            <Slider
+              id="musicVolume"
+              v-model="musicVolumePercent"
+              :min="0"
+              :max="100"
+              :step="1"
+            />
           </div>
         </CardContent>
       </Card>
