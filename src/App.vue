@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import MainContentPage from "./views/MainContentPage.vue";
 import SettingsPage from "./views/SettingsPage.vue";
 import player_conf from "./store/player_conf";
 import player_state from './store/player_state.ts'
+import { getWindowSize, isMaximized, setWindowSize } from "./utils/utils.ts";
 
 const currentPage = ref("home");
 
@@ -33,6 +34,21 @@ const glowRgb = computed(() => {
   }
 })()
   */
+
+  watch(currentPage, async (page) => {
+    if (page === "settings") {
+      const windowSize = await getWindowSize();
+      if (windowSize.height < 720 && !await isMaximized()) {
+        await setWindowSize(windowSize.width, 720);
+      }
+    }
+    if (page === "home") {
+      const windowSize = await getWindowSize();
+      if (windowSize.height > 600 && !await isMaximized()) {
+        await setWindowSize(windowSize.width, 600);
+      }
+    }
+  });
 
 </script>
 

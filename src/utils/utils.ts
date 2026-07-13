@@ -5,6 +5,8 @@ import { COLLECTIONS } from "@/constants";
 import { invoke } from "@tauri-apps/api/core";
 import { resolveResource } from "@tauri-apps/api/path";
 import { readTextFile } from "@tauri-apps/plugin-fs";
+import { getCurrentWindow, LogicalSize } from '@tauri-apps/api/window';
+
 
 type MusicJsonSchema = {
     music: Record<MusicCategory, Record<string, { hash: string; size: number }>>;
@@ -59,4 +61,23 @@ export const getDefaultMinMaxWait = (collection: string): [number, number] => {
         return [600, 1200]
     }
     return [minWait, maxWait]
+}
+
+
+const appWindow = getCurrentWindow();
+
+export const getWindowSize = async () => {
+    const size = await appWindow.innerSize();
+    const scaleFactor = await appWindow.scaleFactor();
+    const width = size.width / scaleFactor;
+    const height = size.height / scaleFactor;
+    return { width, height };
+}
+
+export const setWindowSize = async (width: number, height: number) => {
+    await appWindow.setSize(new LogicalSize(width, height));
+}
+
+export const isMaximized = async () => {
+    return await appWindow.isMaximized();
 }

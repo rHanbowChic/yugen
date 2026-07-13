@@ -9,6 +9,7 @@
     "core:path:default",
     "fs:allow-app-read",
     "fs:allow-appdata-read",
+    "core:window:allow-set-size",
     {
       "identifier": "fs:allow-read-text-file",
       "allow": [
