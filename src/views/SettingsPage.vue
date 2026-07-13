@@ -247,6 +247,9 @@ const onAutostartChange = async (next: boolean | "indeterminate") => {
           <p class="text-muted-foreground leading-relaxed">
             Yugen 是一个用于播放 Minecraft 环境音乐的轻量应用，目标是提供专注、自然的听觉氛围。
           </p>
+          <p class="text-muted-foreground leading-relaxed">
+            Ver. 1.4.1, designed and developed by Ect07.
+          </p>
         </CardContent>
       </Card>
     </div>

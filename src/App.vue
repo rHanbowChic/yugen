@@ -38,8 +38,8 @@ const glowRgb = computed(() => {
   watch(currentPage, async (page) => {
     if (page === "settings") {
       const windowSize = await getWindowSize();
-      if (windowSize.height < 720 && !await isMaximized()) {
-        await setWindowSize(windowSize.width, 720);
+      if (windowSize.height < 750 && !await isMaximized()) {
+        await setWindowSize(windowSize.width, 750);
       }
     }
     if (page === "home") {
